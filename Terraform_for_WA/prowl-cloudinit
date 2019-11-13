@@ -1,0 +1,26 @@
+#cloud-config
+output: { all: "| tee -a /var/log/cloud-init-output.log" }
+
+runcmd:
+  - mkdir /apps
+  - yum install git -y
+  - amazon-linux-extras install python3
+  - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  - python get-pip.py
+  - pip3 install pandas
+  - pip3 install python-docx 
+  - cd /apps && git clone https://github.com/toniblyx/prowler 
+  - mkdir /root/.aws
+  - echo "[default]" >>/root/.aws/credentials
+  - echo "aws_access_key_id = CUSTOMER_ACCOUNT_ACCESS_KEY" >>/root/.aws/credentials
+  - echo "aws_secret_access_key = CUSTOMER_ACCOUNT_SECRET_KEY" >>/root/.aws/credentials
+  - cd /apps/prowler && ./prowler -r ap-southeast-1 -M csv > output.csv
+  - cd /apps/prowler && git clone https://github.com/Trudysih/prowlerParser.git
+  - cp /apps/prowler/output.csv /apps/prowler/prowlerParser
+  - cd /apps/prowler/prowlerParser && python3 prowlerParser.py 
+  - cp /var/log/cloud-init-output.log /apps/prowler/prowlerParser
+  - cd /apps && sudo pip3 install scoutsuite && scout aws -r ap-southeast-1 -p default
+  - echo "aws_access_key_id = YOUR_ACCOUNT_ACCESS_KEY" >>/root/.aws/credentials
+  - echo "aws_secret_access_key = YOUR_ACCOUNT_SECRET_KEY" >>/root/.aws/credentials
+  - cd /apps/prowler/ && aws s3 sync ./prowlerParser/  s3://PROWLER_BUCKET_NAM/
+  - cd /apps/ && aws s3 sync ./scoutsuite-report/  s3://SCOUTSUITE_BUCKET_NAME/
