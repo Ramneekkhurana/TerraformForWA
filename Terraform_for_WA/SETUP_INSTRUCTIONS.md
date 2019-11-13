@@ -1,11 +1,13 @@
 Steps before running the terraform script (in ap-southeast-1) :
 
 1.	Create an EC2 key pair named prowlerParser and paste the public key to the file prowlerParser.pub
+
 •	This Key is  used to access the EC2  instance if you want to watch the progress of the scan or to debug (you can do so by running the command cat /var/log/cloud-init-output.log when in the EC2) 
 
 2.	Create two S3 buckets, one for prowler scan results and one for scoutsuite results (separated so that it is easy to download all the scout suite files required to open the html)
 
 3.	Edit these parameters in the prowl-cloudinit file  
+
 •	PROWLER_BUCKET_NAME
 
 •	SCOUTSUITE_BUCKET_NAME
