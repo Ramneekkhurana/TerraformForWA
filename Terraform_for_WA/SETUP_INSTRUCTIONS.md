@@ -20,6 +20,7 @@ Steps before running the terraform script (in ap-southeast-1) :
 
 
 
+
 Steps to run the script 
 
 1. Terraform init
