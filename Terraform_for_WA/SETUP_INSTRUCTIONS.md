@@ -7,8 +7,11 @@ Steps before running the terraform script (in ap-southeast-1) :
 
 3.	Edit these parameters in the prowl-cloudinit file  
 •	PROWLER_BUCKET_NAME
+
 •	SCOUTSUITE_BUCKET_NAME
+
 •	CUSTOMER_ACCOUNT_ACCESS_KEY, CUSTOMER_ACCOUNT_SECRET_KEY (Read Only / Security Audit Permissions access keys of customer account)
+
 •	YOUR_ACCOUNT_ACCESS_KEY , YOUR_ACCOUNT_SECRET_KEY (access keys of your own account to allow writing to your S3 buckets)
 
 
